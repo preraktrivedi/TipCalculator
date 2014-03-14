@@ -4,6 +4,6 @@
     <string name="app_name">Tip Calculator</string>
     <string name="action_settings">Settings</string>
     <string name="str_enter_amt">Enter Bill Amount</string>
-     <string name="ib_action_send">Done</string>
+     <string name="ib_action_done">Done</string>
 
 </resources>

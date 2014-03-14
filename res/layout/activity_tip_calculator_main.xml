@@ -23,6 +23,7 @@
             android:layout_centerVertical="true"
             android:background="@null"
             android:layout_marginRight="5dp"
+            android:contentDescription="@string/ib_action_done"
             android:src="@drawable/ic_action_send" />
 
         <EditText
@@ -38,4 +39,11 @@
             android:textColorHint="#89FFFFFF" />
     </RelativeLayout>
 
+    <ListView
+        android:id="@+id/lv_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/rl_amount_container"
+        android:layout_alignParentLeft="true" />
 </RelativeLayout>
