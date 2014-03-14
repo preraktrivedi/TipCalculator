@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_tipcalc"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".TipCalculatorMainActivity" >
+
+    <RelativeLayout
+        android:id="@+id/rl_amount_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#78FFFFFF" >
+
+        <ImageButton
+            android:id="@+id/ib_action_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_action_send" />
+
+        <EditText
+            android:id="@+id/et_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/str_enter_amt"
+            android:layout_toLeftOf="@id/ib_action_done"
+            android:inputType="numberDecimal"
+            android:padding="12dp"
+            android:textColor="#DCFFFFFF"
+            android:textColorHint="#89FFFFFF" />
+    </RelativeLayout>
+
+</RelativeLayout>
