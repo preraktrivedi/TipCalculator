@@ -1,41 +1,69 @@
 package codepath.preraktrivedi.apps.tipcalculator;
 
-import java.util.ArrayList;
-
-import codepath.preraktrivedi.apps.tipcalculator.adapters.AmountAdapter;
-import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipAmount;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
+import codepath.preraktrivedi.apps.tipcalculator.adapters.AmountAdapter;
+import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipAmount;
+import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipCalculatorAppData;
+import codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils;
 
 public class TipCalculatorMainActivity extends Activity {
 
 	private Context mContext;
 	private EditText mEtAmt;
-	private ListView listview;
+	private ListView mTipOptionsListDisplay;
+	private ImageButton mBtDone;
+	private TipCalculatorAppData mAppData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tip_calculator_main);
-
+		mContext = this;
+		mAppData = TipCalculatorAppData.getInstance();
 		mEtAmt = (EditText) findViewById(R.id.et_amount);
-		listview = (ListView) findViewById(R.id.lv_items);
+		mBtDone = (ImageButton) findViewById(R.id.ib_action_done);
+		setButtonClickListener();
+		mTipOptionsListDisplay = (ListView) findViewById(R.id.lv_items);
 		mEtAmt.requestFocus();
 		showSoftKeyboard(mEtAmt);
+		showListView(false);
+	}
 
-		// Construct the data source
-		ArrayList<TipAmount> tipArray = new ArrayList<TipAmount>();
-		// Create the adapter to convert the array to views
-		AmountAdapter adapter = new AmountAdapter(this, TipAmount.getSampleTipAmounts());
-		// Attach the adapter to a ListView
-		listview.setAdapter(adapter);
+	private void setButtonClickListener() {
+		mBtDone.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String text = mEtAmt.getText().toString();
+				if (TipUtils.validateAmount(text)) {
+					showListView(true);
+					Toast.makeText(mContext, "Bill amount - " + text, Toast.LENGTH_SHORT).show();
+				} else {
+					showToast(getResources().getString(R.string.error_invalid_amount));
+				}
+			}
+		});
+	}
 
+	private void showListView(boolean show) {
+		if (show) {
+			// Create the adapter to convert the array to views
+			AmountAdapter adapter = new AmountAdapter(this, TipAmount.getTipAmounts(mAppData.getCurrentTipAmount()));
+			// Attach the adapter to a ListView
+			mTipOptionsListDisplay.setAdapter(adapter);
+			mTipOptionsListDisplay.setVisibility(View.VISIBLE);
+		} else {
+			mTipOptionsListDisplay.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -44,10 +72,16 @@ public class TipCalculatorMainActivity extends Activity {
 		return true;
 	}
 
-	public void showSoftKeyboard(View view) {
+	private void showSoftKeyboard(View view) {
 		if(view.isFocused()) {
 			InputMethodManager imm =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.showSoftInput(view,InputMethodManager.SHOW_IMPLICIT);
 		}
+	}
+	
+	private void showToast(String msg) {
+		Toast toast = Toast.makeText(mContext, msg, Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.show();
 	}
 }

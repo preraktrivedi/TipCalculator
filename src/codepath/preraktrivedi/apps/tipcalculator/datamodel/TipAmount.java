@@ -2,50 +2,53 @@ package codepath.preraktrivedi.apps.tipcalculator.datamodel;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipCalculatorAppData.TipType;
+import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.calculateTipFromPercent;
 
 public class TipAmount {
-	public String tipType;
-	public String tipAmount;
 
-	public TipAmount(String tipType, String tipAmount) {
+	private TipType tipType;
+	private String tipAmount;
+
+	public TipAmount(TipType tipType, String tipAmount) {
 		super();
-		this.tipType = tipType;
-		this.tipAmount = tipAmount;
-	}
-
-	public TipAmount(JSONObject object){
-		try {
-			this.tipType = object.getString("tipType");
-			this.tipAmount = object.getString("tipAmount");
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		this.setTipType(tipType);
+		this.setTipAmount(tipAmount);
 	}
 
 	public static  ArrayList<TipAmount> getSampleTipAmounts() {
 		ArrayList<TipAmount> tipAmount = new ArrayList<TipAmount>();
-		tipAmount.add(new TipAmount("Ten Percent", "10"));
-		tipAmount.add(new TipAmount("Fifteen Percent", "15"));
-		tipAmount.add(new TipAmount("Twenty Percent", "20"));
-		tipAmount.add(new TipAmount("Custom Tip Percent", "30"));
-		tipAmount.add(new TipAmount("Custom Tip Amount", "15"));
-		tipAmount.add(new TipAmount("Custom Total Amount", "150"));
+		tipAmount.add(new TipAmount(TipType.TEN_PERCENT, "10"));
+		tipAmount.add(new TipAmount(TipType.FIFTEEN_PERCENT, "15"));
+		tipAmount.add(new TipAmount(TipType.TWENTY_PERCENT, "20"));
+		tipAmount.add(new TipAmount(TipType.CUSTOM_PERCENT, "30"));
+		tipAmount.add(new TipAmount(TipType.CUSTOM_TIP_AMOUNT, "15"));
+		tipAmount.add(new TipAmount(TipType.CUSTOM_TOTAL_AMOUNT, "150"));
 		return tipAmount;
-
 	}
 
-	public static ArrayList<TipAmount> fromJson(JSONArray jsonObjects) {
-		ArrayList<TipAmount> users = new ArrayList<TipAmount>();
-		for (int i = 0; i < jsonObjects.length(); i++) {
-			try {
-				users.add(new TipAmount(jsonObjects.getJSONObject(i)));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		return users;
+	public static ArrayList<TipAmount> getTipAmounts(double billAmount) {
+		ArrayList<TipAmount> tipAmount = new ArrayList<TipAmount>();
+		tipAmount.add(new TipAmount(TipType.TEN_PERCENT, calculateTipFromPercent(10, billAmount)));
+		tipAmount.add(new TipAmount(TipType.FIFTEEN_PERCENT, calculateTipFromPercent(15, billAmount)));
+		tipAmount.add(new TipAmount(TipType.TWENTY_PERCENT, calculateTipFromPercent(20, billAmount)));
+		return tipAmount;
 	}
+
+	public TipType getTipType() {
+		return tipType;
+	}
+
+	public void setTipType(TipType tipType) {
+		this.tipType = tipType;
+	}
+
+	public String getTipAmount() {
+		return tipAmount;
+	}
+
+	public void setTipAmount(String tipAmount) {
+		this.tipAmount = tipAmount;
+	}
+
 }

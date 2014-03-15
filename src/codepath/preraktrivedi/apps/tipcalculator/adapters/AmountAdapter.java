@@ -22,12 +22,13 @@ public class AmountAdapter extends ArrayAdapter<TipAmount> {
     public AmountAdapter(Context context, ArrayList<TipAmount> tipAmount) {
        super(context, R.layout.item_lv_amount, tipAmount);
     }
-
+    
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-       // Get the data item for this position
-       TipAmount user = getItem(position);    
-       // Check if an existing view is being reused, otherwise inflate the view
+
+    	TipAmount tipItem = getItem(position);    
+       
+    	// Check if an existing view is being reused, otherwise inflate the view
        ViewHolder viewHolder; // view lookup cache stored in tag
        if (convertView == null) {
           viewHolder = new ViewHolder();
@@ -40,8 +41,8 @@ public class AmountAdapter extends ArrayAdapter<TipAmount> {
            viewHolder = (ViewHolder) convertView.getTag();
        }
        // Populate the data into the template view using the data object
-       viewHolder.type.setText(user.tipType);
-       viewHolder.amount.setText(user.tipAmount);
+       viewHolder.type.setText(tipItem.getTipType().toString());
+       viewHolder.amount.setText("$ " +tipItem.getTipAmount());
        // Return the completed view to render on screen
        return convertView;
    }
