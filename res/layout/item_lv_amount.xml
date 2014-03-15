@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_list_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#78FFFFFF"
+    android:background="@drawable/lv_selector"
     android:padding="14dp" >
 
     <TextView

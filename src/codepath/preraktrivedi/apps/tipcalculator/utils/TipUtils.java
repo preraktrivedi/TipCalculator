@@ -32,12 +32,16 @@ public class TipUtils {
 
 		return isAmountValid;
 	}
-
-	private static double refineTipAmount(double tipAmount) {
+	
+	private static String formatToCurrency(double tipAmount) {
 		BigDecimal bd = new BigDecimal(tipAmount);
 		BigDecimal rounded = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
 		DecimalFormat df = new DecimalFormat("#0.00");
-		return Double.parseDouble(df.format(rounded.doubleValue()));
+		return df.format(rounded.doubleValue());
+	}
+
+	private static double refineTipAmount(double tipAmount) {
+		return Double.parseDouble(formatToCurrency(tipAmount));
 	}
 
 	public static String calculateTipFromPercent(int tipPercent, double billAmount) {
@@ -45,7 +49,7 @@ public class TipUtils {
 		double tipFraction = ((double) tipPercent) / 100;
 
 		try {
-			tipText = "" + (tipFraction * billAmount);
+			tipText = "" + formatToCurrency(tipFraction * billAmount);
 		} catch (Exception e) {
 			tipText = "";
 		}

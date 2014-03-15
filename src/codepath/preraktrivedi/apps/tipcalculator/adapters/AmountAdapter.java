@@ -10,40 +10,50 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class AmountAdapter extends ArrayAdapter<TipAmount> {
-    // View lookup cache
-    private static class ViewHolder {
-        TextView type;
-        TextView amount;
-    }
+	// View lookup cache
+	private Context mContext;
 
-    public AmountAdapter(Context context, ArrayList<TipAmount> tipAmount) {
-       super(context, R.layout.item_lv_amount, tipAmount);
-    }
-    
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+	private static class ViewHolder {
+		TextView type;
+		TextView amount;
+		RelativeLayout container;
+	}
 
-    	TipAmount tipItem = getItem(position);    
-       
-    	// Check if an existing view is being reused, otherwise inflate the view
-       ViewHolder viewHolder; // view lookup cache stored in tag
-       if (convertView == null) {
-          viewHolder = new ViewHolder();
-          LayoutInflater inflater = LayoutInflater.from(getContext());
-          convertView = inflater.inflate(R.layout.item_lv_amount, null);
-          viewHolder.type = (TextView) convertView.findViewById(R.id.tv_type);
-          viewHolder.amount = (TextView) convertView.findViewById(R.id.tv_value);
-          convertView.setTag(viewHolder);
-       } else {
-           viewHolder = (ViewHolder) convertView.getTag();
-       }
-       // Populate the data into the template view using the data object
-       viewHolder.type.setText(tipItem.getTipType().toString());
-       viewHolder.amount.setText("$ " +tipItem.getTipAmount());
-       // Return the completed view to render on screen
-       return convertView;
-   }
+	public AmountAdapter(Context context, ArrayList<TipAmount> tipAmount) {
+		super(context, R.layout.item_lv_amount, tipAmount);
+		mContext = context;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+
+		TipAmount tipItem = getItem(position);    
+
+		// Check if an existing view is being reused, otherwise inflate the view
+		ViewHolder viewHolder; // view lookup cache stored in tag
+		if (convertView == null) {
+			viewHolder = new ViewHolder();
+			LayoutInflater inflater = LayoutInflater.from(getContext());
+			convertView = inflater.inflate(R.layout.item_lv_amount, null);
+			viewHolder.type = (TextView) convertView.findViewById(R.id.tv_type);
+			viewHolder.amount = (TextView) convertView.findViewById(R.id.tv_value);
+			viewHolder.container = (RelativeLayout) convertView.findViewById(R.id.rl_list_item);
+			convertView.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolder) convertView.getTag();
+		}
+
+		configureView(tipItem, viewHolder);
+
+		return convertView;
+	}
+
+	private void configureView(TipAmount tipItem, ViewHolder viewHolder) {
+		viewHolder.type.setText(tipItem.getTipType().toString());
+		viewHolder.amount.setText("$ " +tipItem.getTipAmount());
+	}
 }

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lv_selected_color">#78FFFFFF</color>
+    <color name="default_color">#00FFFFFF</color>
+</resources>

@@ -43,7 +43,10 @@
         android:id="@+id/lv_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:listSelector="@drawable/lv_selector"
         android:layout_marginTop="10dp"
         android:layout_below="@id/rl_amount_container"
+        android:cacheColorHint="@color/default_color"
+        android:choiceMode="singleChoice"
         android:layout_alignParentLeft="true" />
 </RelativeLayout>

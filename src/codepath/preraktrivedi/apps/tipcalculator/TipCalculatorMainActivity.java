@@ -7,6 +7,8 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -32,9 +34,9 @@ public class TipCalculatorMainActivity extends Activity {
 		mAppData = TipCalculatorAppData.getInstance();
 		mEtAmt = (EditText) findViewById(R.id.et_amount);
 		mBtDone = (ImageButton) findViewById(R.id.ib_action_done);
-		setButtonClickListener();
 		mTipOptionsListDisplay = (ListView) findViewById(R.id.lv_items);
 		mEtAmt.requestFocus();
+		setButtonClickListener();
 		showSoftKeyboard(mEtAmt);
 		showListView(false);
 	}
@@ -48,9 +50,18 @@ public class TipCalculatorMainActivity extends Activity {
 					showListView(true);
 					Toast.makeText(mContext, "Bill amount - " + text, Toast.LENGTH_SHORT).show();
 				} else {
+					showListView(false);
 					showToast(getResources().getString(R.string.error_invalid_amount));
 				}
 			}
+		});
+		
+		mTipOptionsListDisplay.setOnItemClickListener(new OnItemClickListener() {
+
+		    @Override
+		    public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
+		        view.setSelected(true);
+		    }
 		});
 	}
 
