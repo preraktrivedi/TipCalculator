@@ -14,9 +14,11 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -26,6 +28,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import codepath.preraktrivedi.apps.tipcalculator.R;
 import codepath.preraktrivedi.apps.tipcalculator.adapters.AmountAdapter;
@@ -83,7 +86,7 @@ public class TipCalculatorMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (validateForm()) {
-					showAlertDialog("Enter Number Of People: ");
+					showAlertDialog("Enter Number of People: ");
 				}
 			}
 		});
@@ -101,13 +104,16 @@ public class TipCalculatorMainActivity extends Activity {
 		mIbAmtDone.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String text = mEtAmt.getText().toString().trim();
-				if (validateAmount(text)) {
-					showListView(true);
-				} else {
-					showListView(false);
-					showToast(getResources().getString(R.string.error_invalid_amount));
-				}
+				checkIfInputIsValid();
+			}
+		});
+
+		mEtAmt.setOnEditorActionListener(new OnEditorActionListener() {
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+					checkIfInputIsValid();
+				}    
+				return false;
 			}
 		});
 
@@ -151,6 +157,16 @@ public class TipCalculatorMainActivity extends Activity {
 				}
 			}
 		});
+	}
+
+	private void checkIfInputIsValid() {
+		String text = mEtAmt.getText().toString().trim();
+		if (validateAmount(text)) {
+			showListView(true);
+		} else {
+			showListView(false);
+			showToast(getResources().getString(R.string.error_invalid_amount));
+		}
 	}
 
 	private boolean validateForm() {
@@ -291,8 +307,8 @@ public class TipCalculatorMainActivity extends Activity {
 	}
 
 	private void startSummaryActivity() {
-	    Intent intent = new Intent(this, BillSummaryActivity.class);
-	    startActivity(intent);
+		Intent intent = new Intent(this, BillSummaryActivity.class);
+		startActivity(intent);
 	}
 
 	private boolean validateCurrentItem() {

@@ -10,7 +10,7 @@
     <string name="str_summary">Summary</string>
     <string name="summary_bill_subtotal">Bill Subtotal</string>
     <string name="summary_tip_amt_hint">Tip Amount</string>
-    <string name="summary_amt_per_person">Amount Per Person</string>
+    <string name="summary_amt_per_person">Amount per Person</string>
     <string name="summary_number_people">Number of People</string>
     <string name="summary_grand_total">Grand Total</string>
     <string name="bt_done">I\'m Done</string>

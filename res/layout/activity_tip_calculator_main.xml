@@ -33,6 +33,7 @@
             android:layout_toLeftOf="@id/ib_action_done"
             android:background="@null"
             android:hint="@string/str_enter_amt"
+            android:imeOptions="actionDone"
             android:inputType="numberDecimal"
             android:padding="12dp"
             android:textColor="#DCFFFFFF"

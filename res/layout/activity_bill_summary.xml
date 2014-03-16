@@ -35,7 +35,6 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/tv_bill_subtotal"
             android:gravity="right"
-            android:text="$ 100.00"
             android:textColor="#DCFFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -67,7 +66,6 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/tv_tip_amount"
             android:gravity="right"
-            android:text="$ 10.00"
             android:textColor="#DCFFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -106,7 +104,6 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/tv_grand_total"
             android:gravity="right"
-            android:text="$ 110.00"
             android:textColor="#DCFFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -151,7 +148,6 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/tv_num_people"
                 android:gravity="right"
-                android:text="10"
                 android:textColor="#DCFFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -190,7 +186,6 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/tv_per_person"
                 android:gravity="right"
-                android:text="$ 11.00"
                 android:textColor="#DCFFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />
