@@ -115,6 +115,7 @@ public class AmountAdapter extends ArrayAdapter<TipAmount> {
 				viewHolder.amount.setText("$ " + formatToCurrency(totalAmt));
 			} else {
 				viewHolder.amount.setVisibility(View.GONE);
+				mAppData.setCustomTotalAmountSet(false);
 			}
 		}
 	}

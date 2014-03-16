@@ -11,8 +11,9 @@ package codepath.preraktrivedi.apps.tipcalculator.datamodel;
 public class TipCalculatorAppData {
 
 	private static TipCalculatorAppData sInstance;
-	private double currentBillAmount, customTipAmount, customTipPercent, customTotalAmount;
+	private double currentBillAmount, currentTipAmount, customTipAmount, customTipPercent, customTotalAmount;
 	private boolean isCustomTipPercentSet, isCustomTipAmountSet, isCustomTotalAmountSet;
+	private int numberOfPeople;
 
 	public static synchronized TipCalculatorAppData getInstance() {
 		if (null == sInstance) {
@@ -87,6 +88,22 @@ public class TipCalculatorAppData {
 
 	public void setCustomTotalAmountSet(boolean isCustomTotalAmountSet) {
 		this.isCustomTotalAmountSet = isCustomTotalAmountSet;
+	}
+
+	public double getCurrentTipAmount() {
+		return currentTipAmount;
+	}
+
+	public void setCurrentTipAmount(double currentTipAmount) {
+		this.currentTipAmount = currentTipAmount;
+	}
+
+	public int getNumberOfPeople() {
+		return numberOfPeople;
+	}
+
+	public void setNumberOfPeople(int numberOfPeople) {
+		this.numberOfPeople = numberOfPeople;
 	}
 
 	public enum TipType {

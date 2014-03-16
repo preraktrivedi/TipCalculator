@@ -7,6 +7,12 @@
     <string name="ib_action_done">Done</string>
     <string name="iv_action_edit">Edit</string>
     <string name="bt_split">Split Bill</string>
+    <string name="str_summary">Summary</string>
+    <string name="summary_bill_subtotal">Bill Subtotal</string>
+    <string name="summary_tip_amt_hint">Tip Amount</string>
+    <string name="summary_amt_per_person">Amount Per Person</string>
+    <string name="summary_number_people">Number of People</string>
+    <string name="summary_grand_total">Grand Total</string>
     <string name="bt_done">I\'m Done</string>
     <string name="error_invalid_amount">Please enter a valid amount between 0 and 9,999,999.</string>
 

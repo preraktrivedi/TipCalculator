@@ -19,6 +19,7 @@ public class TipUtils {
 	}
 
 	public static double convertStringToDouble(String text) {
+		text = text.replaceAll("[^\\d.]", "");
 		double amount = -1;
 		try {
 			amount = Double.parseDouble(text);
@@ -80,5 +81,5 @@ public class TipUtils {
 
 		return text;
 	}
-
+	
 }
