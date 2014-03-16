@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipCalculatorAppData.TipType;
 import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.calculateTipFromPercent;
+import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.calculateCustomTipPercent;
 
 public class TipAmount {
 
@@ -32,6 +33,9 @@ public class TipAmount {
 		tipAmount.add(new TipAmount(TipType.TEN_PERCENT, calculateTipFromPercent(10, billAmount)));
 		tipAmount.add(new TipAmount(TipType.FIFTEEN_PERCENT, calculateTipFromPercent(15, billAmount)));
 		tipAmount.add(new TipAmount(TipType.TWENTY_PERCENT, calculateTipFromPercent(20, billAmount)));
+		tipAmount.add(new TipAmount(TipType.CUSTOM_PERCENT, calculateCustomTipPercent()));
+		tipAmount.add(new TipAmount(TipType.CUSTOM_TIP_AMOUNT, "15"));
+		tipAmount.add(new TipAmount(TipType.CUSTOM_TOTAL_AMOUNT, "150"));
 		return tipAmount;
 	}
 

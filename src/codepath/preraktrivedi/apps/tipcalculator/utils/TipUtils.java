@@ -3,6 +3,7 @@ package codepath.preraktrivedi.apps.tipcalculator.utils;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
+import android.util.Log;
 import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipCalculatorAppData;
 
 /** Utils for common methods to calculate tip. 
@@ -25,15 +26,15 @@ public class TipUtils {
 		}
 
 		if (isAmountValid) {
-			TipCalculatorAppData.getInstance().setCurrentTipAmount(refineTipAmount(tipAmount));
+			TipCalculatorAppData.getInstance().setCurrentBillAmount(refineTipAmount(tipAmount));
 		} else {
-			TipCalculatorAppData.getInstance().setCurrentTipAmount(-1);
+			TipCalculatorAppData.getInstance().setCurrentBillAmount(-1);
 		}
 
 		return isAmountValid;
 	}
 	
-	private static String formatToCurrency(double tipAmount) {
+	public static String formatToCurrency(double tipAmount) {
 		BigDecimal bd = new BigDecimal(tipAmount);
 		BigDecimal rounded = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
 		DecimalFormat df = new DecimalFormat("#0.00");
@@ -43,10 +44,17 @@ public class TipUtils {
 	private static double refineTipAmount(double tipAmount) {
 		return Double.parseDouble(formatToCurrency(tipAmount));
 	}
+	
+	public static String calculateCustomTipPercent() {
+		TipCalculatorAppData data = TipCalculatorAppData.getInstance();
+		double customTipPercent = data.getCustomTipPercent();
+		double currentBillAmount = data.getCurrentBillAmount();
+		return calculateTipFromPercent(customTipPercent, currentBillAmount);
+	}
 
-	public static String calculateTipFromPercent(int tipPercent, double billAmount) {
+	public static String calculateTipFromPercent(double tipPercent, double billAmount) {
 		String tipText = "";
-		double tipFraction = ((double) tipPercent) / 100;
+		double tipFraction = (tipPercent / 100);
 
 		try {
 			tipText = "" + formatToCurrency(tipFraction * billAmount);
@@ -54,5 +62,16 @@ public class TipUtils {
 			tipText = "";
 		}
 		return tipText;
+	}
+	
+	public static String getCustomTipPercentString() {
+		String text = "Custom Tip Percent";
+		TipCalculatorAppData appData = TipCalculatorAppData.getInstance();
+		
+		if (appData.isCustomTipPercentSet()) {
+			text = "Custom (" + formatToCurrency(appData.getCustomTipPercent()) + " %)";
+		}
+		
+		return text;
 	}
 }
