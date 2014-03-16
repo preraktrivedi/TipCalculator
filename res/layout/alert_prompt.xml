@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="20dp" >
+ 
+    <TextView
+        android:id="@+id/tv_prompt_current_amt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_margin="10dp"
+        android:text="Current Amount: $ 312.44"
+        />
+    
+    <TextView
+        android:id="@+id/tv_prompt_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:text="Enter Total Amount:"
+        />
+ 
+    <EditText
+        android:id="@+id/et_prompt_input"
+        android:layout_width="match_parent"
+        android:inputType="numberDecimal"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content" >
+        <requestFocus />
+    </EditText>
+ 
+</LinearLayout>

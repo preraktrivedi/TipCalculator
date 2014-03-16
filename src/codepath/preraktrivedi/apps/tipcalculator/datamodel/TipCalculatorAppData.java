@@ -37,7 +37,7 @@ public class TipCalculatorAppData {
 	public void setCustomTipPercent(double customTipPercent) {
 		this.customTipPercent = customTipPercent;
 		
-		if(!isCustomTipPercentSet) {
+		if(!isCustomTipPercentSet()) {
 			setCustomTipPercentSet(true);
 		}
 	}
@@ -48,6 +48,10 @@ public class TipCalculatorAppData {
 
 	public void setCustomTotalAmount(double customTotalAmount) {
 		this.customTotalAmount = customTotalAmount;
+		
+		if(!isCustomTotalAmountSet()) {
+			setCustomTotalAmountSet(true);
+		}
 	}
 
 	public boolean isCustomTipPercentSet() {

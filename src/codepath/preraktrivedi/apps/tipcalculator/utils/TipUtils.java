@@ -3,7 +3,6 @@ package codepath.preraktrivedi.apps.tipcalculator.utils;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
-import android.util.Log;
 import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipCalculatorAppData;
 
 /** Utils for common methods to calculate tip. 
@@ -57,7 +56,7 @@ public class TipUtils {
 		double tipFraction = (tipPercent / 100);
 
 		try {
-			tipText = "" + formatToCurrency(tipFraction * billAmount);
+			tipText = "$ " + formatToCurrency(tipFraction * billAmount);
 		} catch (Exception e) {
 			tipText = "";
 		}
@@ -74,4 +73,5 @@ public class TipUtils {
 		
 		return text;
 	}
+	
 }

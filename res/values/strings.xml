@@ -5,6 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="str_enter_amt">Enter Bill Amount</string>
     <string name="ib_action_done">Done</string>
+    <string name="iv_action_edit">Edit</string>
     <string name="error_invalid_amount">Please enter a valid amount between 0 and 9,999,999.</string>
 
 </resources>
