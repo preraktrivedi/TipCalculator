@@ -92,6 +92,7 @@ public class TipCalculatorMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (validateForm()) {
+					mAppData.setNumberOfPeople(1);
 					startSummaryActivity();
 				}
 			}
