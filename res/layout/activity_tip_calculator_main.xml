@@ -21,8 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@null"
             android:layout_marginRight="5dp"
+            android:background="@null"
             android:contentDescription="@string/ib_action_done"
             android:src="@drawable/ic_action_send" />
 
@@ -30,9 +30,9 @@
             android:id="@+id/et_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/ib_action_done"
             android:background="@null"
             android:hint="@string/str_enter_amt"
-            android:layout_toLeftOf="@id/ib_action_done"
             android:inputType="numberDecimal"
             android:padding="12dp"
             android:textColor="#DCFFFFFF"
@@ -43,10 +43,49 @@
         android:id="@+id/lv_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:listSelector="@drawable/lv_selector"
-        android:layout_marginTop="10dp"
+        android:layout_alignParentLeft="true"
         android:layout_below="@id/rl_amount_container"
+        android:layout_marginTop="10dp"
         android:cacheColorHint="@color/default_color"
         android:choiceMode="singleChoice"
-        android:layout_alignParentLeft="true" />
+        android:listSelector="@drawable/lv_selector" />
+
+    <RelativeLayout
+        android:id="@+id/rl_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_below="@id/lv_items"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/transparent" >
+
+        <View
+            android:id="@+id/v_transparent"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/bt_split_amount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/v_transparent"
+            android:background="@drawable/button_selector"
+            android:text="@string/bt_split"
+            android:textColor="#DCFFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/bt_done"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/v_transparent"
+            android:background="@drawable/button_selector"
+            android:text="@string/bt_done"
+            android:textColor="#DCFFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
 </RelativeLayout>

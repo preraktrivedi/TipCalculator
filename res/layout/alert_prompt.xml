@@ -13,7 +13,6 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_margin="10dp"
-        android:text="Current Amount: $ 312.44"
         />
     
     <TextView
@@ -23,7 +22,6 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_marginLeft="10dp"
-        android:text="Enter Total Amount:"
         />
  
     <EditText

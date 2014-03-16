@@ -1,6 +1,10 @@
 package codepath.preraktrivedi.apps.tipcalculator.adapters;
 
-import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.*;
+import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.calculateCustomTipPercent;
+import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.convertStringToDouble;
+import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.formatToCurrency;
+import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.getCustomTipPercentString;
+import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.isTotalInRange;
 
 import java.util.ArrayList;
 
@@ -21,7 +25,6 @@ import codepath.preraktrivedi.apps.tipcalculator.R;
 import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipAmount;
 import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipCalculatorAppData;
 import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipCalculatorAppData.TipType;
-import codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils;
 
 
 /** 
@@ -33,7 +36,7 @@ import codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils;
  **/
 
 public class AmountAdapter extends ArrayAdapter<TipAmount> {
-	// View lookup cache
+
 	private Context mContext;
 	private TipCalculatorAppData mAppData;
 
@@ -53,9 +56,8 @@ public class AmountAdapter extends ArrayAdapter<TipAmount> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		TipAmount tipItem = getItem(position);    
+		ViewHolder viewHolder; 
 
-		// Check if an existing view is being reused, otherwise inflate the view
-		ViewHolder viewHolder; // view lookup cache stored in tag
 		if (convertView == null) {
 			viewHolder = new ViewHolder();
 			LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -172,14 +174,9 @@ public class AmountAdapter extends ArrayAdapter<TipAmount> {
 
 	private boolean validateInput(String input, TipType tipType) {
 		boolean isInputValid = false;
-		double currentBillAmt = mAppData.getCurrentBillAmount(), inputValue;
+		double currentBillAmt = mAppData.getCurrentBillAmount(), 
+				inputValue = convertStringToDouble(input);
 		String errorMsg = "Please enter a valid value greater than 0.";
-
-		try {
-			inputValue = TipUtils.refineTipAmount(Double.parseDouble(input));
-		} catch(Exception e) {
-			inputValue = -1;
-		}
 
 		Log.d("AmountAdapter", " Input value - " + inputValue);
 
