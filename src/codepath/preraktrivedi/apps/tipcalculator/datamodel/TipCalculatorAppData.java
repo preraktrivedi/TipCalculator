@@ -1,5 +1,12 @@
 package codepath.preraktrivedi.apps.tipcalculator.datamodel;
 
+/** 
+ * 
+ * Central data store for maintaining data integrity
+ * @author Prerak Trivedi (prerak.d.trivedi@gmail.com)
+ * 
+ *
+ **/
 
 public class TipCalculatorAppData {
 
@@ -28,6 +35,10 @@ public class TipCalculatorAppData {
 
 	public void setCustomTipAmount(double customTipAmount) {
 		this.customTipAmount = customTipAmount;
+		
+		if(!isCustomTipAmountSet()) {
+			setCustomTipAmountSet(true);
+		}
 	}
 
 	public double getCustomTipPercent() {

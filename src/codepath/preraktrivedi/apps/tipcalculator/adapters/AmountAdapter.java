@@ -1,14 +1,13 @@
 package codepath.preraktrivedi.apps.tipcalculator.adapters;
 
-import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.calculateCustomTipPercent;
-import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.formatToCurrency;
-import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.getCustomTipPercentString;
+import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.*;
 
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,22 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import codepath.preraktrivedi.apps.tipcalculator.R;
 import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipAmount;
 import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipCalculatorAppData;
 import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipCalculatorAppData.TipType;
+import codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils;
+
+
+/** 
+ * 
+ * Adapter to configure the view for a list item.
+ * @author Prerak Trivedi (prerak.d.trivedi@gmail.com)
+ * 
+ *
+ **/
 
 public class AmountAdapter extends ArrayAdapter<TipAmount> {
 	// View lookup cache
@@ -33,7 +41,6 @@ public class AmountAdapter extends ArrayAdapter<TipAmount> {
 		TextView type;
 		TextView amount;
 		ImageView edit;
-		RelativeLayout container;
 	}
 
 	public AmountAdapter(Context context, ArrayList<TipAmount> tipAmount) {
@@ -56,7 +63,6 @@ public class AmountAdapter extends ArrayAdapter<TipAmount> {
 			viewHolder.type = (TextView) convertView.findViewById(R.id.tv_type);
 			viewHolder.amount = (TextView) convertView.findViewById(R.id.tv_value);
 			viewHolder.edit = (ImageView) convertView.findViewById(R.id.iv_action_edit);
-			viewHolder.container = (RelativeLayout) convertView.findViewById(R.id.rl_list_item);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -78,34 +84,49 @@ public class AmountAdapter extends ArrayAdapter<TipAmount> {
 
 		if (TipType.CUSTOM_PERCENT.equals(tipItem.getTipType())) {
 			viewHolder.edit.setVisibility(View.VISIBLE);
+			setEditAction(viewHolder, "Enter Tip Percent: ", currentBillAmt, tipItem.getTipType());
 			viewHolder.type.setText(getCustomTipPercentString());
-			viewHolder.amount.setText(calculateCustomTipPercent());
+			if (mAppData.isCustomTipPercentSet()) {
+				viewHolder.amount.setText(calculateCustomTipPercent());
+			} else {
+				viewHolder.amount.setVisibility(View.GONE);
+			}
 		}
 
 		if (TipType.CUSTOM_TIP_AMOUNT.equals(tipItem.getTipType())) {
 			viewHolder.edit.setVisibility(View.VISIBLE);
+			setEditAction(viewHolder, "Enter Tip Amount: ", currentBillAmt, tipItem.getTipType());
 			viewHolder.amount.setText(calculateCustomTipPercent());
+			double tipAmount = mAppData.getCustomTipAmount();
+			if (mAppData.isCustomTipAmountSet()) {
+				viewHolder.amount.setText("$ " + formatToCurrency(tipAmount));
+			} else {
+				viewHolder.amount.setVisibility(View.GONE);
+			}
 		}
 
 		if (TipType.CUSTOM_TOTAL_AMOUNT.equals(tipItem.getTipType())) {
 			viewHolder.edit.setVisibility(View.VISIBLE);
-			viewHolder.edit.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					showAlertDialog("Enter Total Amount: ", currentBillAmt, tipItem.getTipType());
-				}
-			});
+			setEditAction(viewHolder, "Enter Total Amount: ", currentBillAmt, tipItem.getTipType());
 			double totalAmt = mAppData.getCustomTotalAmount();
-			if (totalAmt > currentBillAmt) {
-				viewHolder.amount.setText("$ " + totalAmt);
+			if (mAppData.isCustomTotalAmountSet() && totalAmt > currentBillAmt) {
+				viewHolder.amount.setText("$ " + formatToCurrency(totalAmt));
 			} else {
 				viewHolder.amount.setVisibility(View.GONE);
 			}
 		}
 	}
 
-	private void showAlertDialog(String msg, double currentBillAmt, final TipType tipType) {
+	private void setEditAction(ViewHolder viewHolder, final String msg, final double currentBillAmt, final TipType tipType) {
+		viewHolder.edit.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showAlertDialog(msg, currentBillAmt, tipType);
+			}
+		});
+	}
 
+	private void showAlertDialog(String msg, double currentBillAmt, final TipType tipType) {
 
 		LayoutInflater li = LayoutInflater.from(mContext);
 		View editActionView = li.inflate(R.layout.alert_prompt, null);
@@ -118,7 +139,7 @@ public class AmountAdapter extends ArrayAdapter<TipAmount> {
 		final TextView tvCurrentAmount = (TextView) editActionView.findViewById(R.id.tv_prompt_current_amt);
 
 		tvMessage.setText(msg);
-		tvCurrentAmount.setText("Current Amount : $ " + formatToCurrency(currentBillAmt));
+		tvCurrentAmount.setText("Bill Amount : $ " + formatToCurrency(currentBillAmt));
 
 		alertDialogBuilder.setCancelable(false)
 		.setPositiveButton("OK", null)
@@ -131,7 +152,6 @@ public class AmountAdapter extends ArrayAdapter<TipAmount> {
 		final AlertDialog alertDialog = alertDialogBuilder.create();
 
 		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-
 			@Override
 			public void onShow(DialogInterface dialog) {
 				Button positiveButon = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
@@ -140,10 +160,8 @@ public class AmountAdapter extends ArrayAdapter<TipAmount> {
 					public void onClick(View view) {
 						String text = userInput.getText().toString();
 						if (validateInput(text, tipType)) {
-							Toast.makeText(mContext, "total amt " + text, Toast.LENGTH_SHORT).show();
-							mAppData.setCustomTotalAmount(2215.23);
-							notifyDataSetChanged();
 							alertDialog.dismiss();
+							notifyDataSetChanged();
 						}
 					}
 				});
@@ -154,8 +172,50 @@ public class AmountAdapter extends ArrayAdapter<TipAmount> {
 
 	private boolean validateInput(String input, TipType tipType) {
 		boolean isInputValid = false;
-		Toast.makeText(mContext, "false dude", Toast.LENGTH_SHORT).show();
-		
+		double currentBillAmt = mAppData.getCurrentBillAmount(), inputValue;
+		String errorMsg = "Please enter a valid value greater than 0.";
+
+		try {
+			inputValue = TipUtils.refineTipAmount(Double.parseDouble(input));
+		} catch(Exception e) {
+			inputValue = -1;
+		}
+
+		Log.d("AmountAdapter", " Input value - " + inputValue);
+
+		if (inputValue > 0) {
+			if (TipType.CUSTOM_PERCENT.equals(tipType)) {
+				if (inputValue < 999.99) {
+					mAppData.setCustomTipPercent(inputValue);
+					isInputValid = true;
+				} else {
+					errorMsg = "Tip Percentage too high.";
+				}
+			} else if (TipType.CUSTOM_TIP_AMOUNT.equals(tipType)) {
+				if (!isTotalInRange(inputValue + currentBillAmt)) {
+					errorMsg = "Tip amount too high. Your total amount should not exceed $9999999.99";
+				} else {
+					mAppData.setCustomTipAmount(inputValue);
+					isInputValid = true;
+				}
+			} else if (TipType.CUSTOM_TOTAL_AMOUNT.equals(tipType)) {
+
+				if (inputValue < currentBillAmt) {
+					errorMsg = "Please enter the total amount greater than the bill amount.";
+				} else if (!isTotalInRange(inputValue + currentBillAmt)) {
+					errorMsg = "Your total amount should not exceed $9999999.99";
+				} else {
+					mAppData.setCustomTotalAmount(inputValue);
+					isInputValid = true;
+				}
+			} else {
+
+			}
+		} 
+
+		if (!isInputValid) {
+			Toast.makeText(mContext, errorMsg, Toast.LENGTH_SHORT).show();
+		}
 		return isInputValid;
 	}
 }

@@ -3,6 +3,9 @@ package codepath.preraktrivedi.apps.tipcalculator;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -12,12 +15,20 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import codepath.preraktrivedi.apps.tipcalculator.adapters.AmountAdapter;
 import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipAmount;
 import codepath.preraktrivedi.apps.tipcalculator.datamodel.TipCalculatorAppData;
-import codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils;
+import static codepath.preraktrivedi.apps.tipcalculator.utils.TipUtils.*;
+
+
+/** 
+ * 
+ * Main activity to accept user input and perform actions associated with it
+ * @author Prerak Trivedi (prerak.d.trivedi@gmail.com)
+ * 
+ *
+ **/
 
 public class TipCalculatorMainActivity extends Activity {
 
@@ -48,9 +59,38 @@ public class TipCalculatorMainActivity extends Activity {
 		mBtDone.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String text = mEtAmt.getText().toString();
-				if (TipUtils.validateAmount(text)) {
+				String text = mEtAmt.getText().toString().trim();
+				if (validateAmount(text)) {
 					showListView(true);
+				} else {
+					showListView(false);
+					showToast(getResources().getString(R.string.error_invalid_amount));
+				}
+			}
+		});
+
+		mEtAmt.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				String input = s.toString();
+
+				if (!TextUtils.isEmpty(input) && input.trim().length() > 0) {
+					if (validateAmount(input)) {
+						showListView(true);
+					} else {
+						showListView(false);
+						showToast(getResources().getString(R.string.error_invalid_amount));
+					}
 				} else {
 					showListView(false);
 					showToast(getResources().getString(R.string.error_invalid_amount));
@@ -66,20 +106,12 @@ public class TipCalculatorMainActivity extends Activity {
 
 				if (previousItemSelected != currentItemSelected) {
 					previousItemSelected = currentItemSelected;
-					
-					if (currentItemSelected == 1) {
-						mAppData.setCustomTipPercent(25);
-						TextView tv = (TextView) mTipOptionsListDisplay.getChildAt(3).findViewById(R.id.tv_type);
-						tv.setText("hey");
-						mAmountAdapter.notifyDataSetChanged();
-					}
-					
+
 					if (mAmountAdapter != null) {
 						TipAmount item = mAmountAdapter.getItem(currentItemSelected);
 						Toast.makeText(getApplicationContext(),
 								"Click ListItem Number " + item.getTipAmount(), Toast.LENGTH_SHORT)
 								.show();
-						
 					}
 				}
 			}
