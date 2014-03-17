@@ -16,7 +16,6 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -233,11 +232,12 @@ public class TipCalculatorMainActivity extends Activity {
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.tip_calculator_main, menu);
-		return true;
-	}
+//	TODO
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		getMenuInflater().inflate(R.menu.tip_calculator_main, menu);
+//		return true;
+//	}
 
 	private void showSoftKeyboard(View view) {
 		if(view.isFocused()) {
